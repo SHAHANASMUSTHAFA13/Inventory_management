@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Product Movement</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <h1>Add Product Movement</h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    <form method="POST" action="{{ url_for('add_movement') }}">
+        <label for="movement_id">Movement ID:</label>
+        <input type="text" id="movement_id" name="movement_id" required><br>
+        <label for="product_id">Product:</label>
+        <select id="product_id" name="product_id" required>
+            <option value="">Select Product</option>
+            {% for product in products %}
+                <option value="{{ product.product_id }}">{{ product.name }}</option>
+            {% endfor %}
+        </select><br>
+        <label for="from_location">From Location:</label>
+        <select id="from_location" name="from_location">
+            <option value="">None</option>
+            {% for location in locations %}
+                <option value="{{ location.location_id }}">{{ location.city }}</option>
+            {% endfor %}
+        </select><br>
+        <label for="to_location">To Location:</label>
+        <select id="to_location" name="to_location">
+            <option value="">None</option>
+            {% for location in locations %}
+                <option value="{{ location.location_id }}">{{ location.city }}</option>
+            {% endfor %}
+        </select><br>
+        <label for="qty">Quantity:</label>
+        <input type="number" id="qty" name="qty" min="1" required><br>
+        <button type="submit">Add Movement</button>
+    </form>
+    <a href="{{ url_for('view_movements') }}">Back to Movements</a>
+</body>
+</html>
